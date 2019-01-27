@@ -1,0 +1,23 @@
+{
+  "name": "osrs-calculator",
+  "version": "1.0.0",
+  "description": "OSRS calculator.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukecamelo/osrs-calculator.git"
+  },
+  "author": "Luke Camelo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukecamelo/osrs-calculator/issues"
+  },
+  "homepage": "https://github.com/lukecamelo/osrs-calculator#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "express": "^4.16.4"
+  }
+}
