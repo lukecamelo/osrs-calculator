@@ -11,16 +11,14 @@ class App extends Component {
 
   callApi = itemName => {
     axios
-      .post('http://localhost:8080/items/json', {
+      .post('/items/json', {
         itemName
       })
-      // .then(res => res.json())
-      // .then(res => console.log(res))
       .then(json => {
-        console.log('json desu ', json)
+        console.log(json.data)
         this.setState({
           show: true,
-          results: json.data.item.icon
+          results: json.data.item
         })
       })
   }
@@ -57,13 +55,22 @@ class App extends Component {
           </CardContent>
         </Card>
         {this.state.show && (
-          <Card>
-            <CardContent>
-              {/* <Typography variant="h5">{this.state.results}</Typography> */}
+          <Card style={{ margin: '3rem auto', width: '400px' }}>
+            <CardContent
+              style={{
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
               <img
-                src={this.state.results}
-                style={{ width: '500px', height: '500px' }}
+                src={this.state.results.icon}
+                alt="item icon"
+                style={{ width: 'auto' }}
               />
+              <Typography variant="h5">
+                current price: {this.state.results.current.price}
+              </Typography>
             </CardContent>
           </Card>
         )}
