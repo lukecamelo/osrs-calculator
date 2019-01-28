@@ -63,14 +63,12 @@ class App extends Component {
                 flexDirection: 'column'
               }}
             >
-              <img
-                src={this.state.results.icon}
-                alt="item icon"
-                style={{ width: 'auto' }}
-              />
-              <Typography variant="h5">
-                current price: {this.state.results.current.price}
-              </Typography>
+              <div>
+                <img src={this.state.results.icon} alt="item icon" />
+                <Typography variant="h5">
+                  current price: {this.state.results.current.price}gp
+                </Typography>
+              </div>
             </CardContent>
           </Card>
         )}
