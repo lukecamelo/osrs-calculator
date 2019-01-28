@@ -1,28 +1,54 @@
 import React, { Component } from 'react'
-import { AppBar, Toolbar, Typography, Paper } from '@material-ui/core'
+import { Card, CardContent, Typography, Input, Button } from '@material-ui/core'
 
 class App extends Component {
+  state = {
+    show: false,
+    results: ''
+  }
+
   callApi = () => {
-    fetch('/test')
+    fetch('http://localhost:8080/test', {
+      mode: 'cors'
+    })
       .then(res => res.json())
-      .then(json => console.log('hello', json))
+      .then(json => {
+        this.setState({
+          show: true,
+          results: json.item.name
+        })
+      })
   }
 
   render() {
     return (
-      <div className="App">
-        <Paper
-          elevation={0}
-          style={{ padding: 0, margin: 0, backgroundColor: '#fafafa' }}
-        >
-          <AppBar color="primary" position="static" style={{ height: 64 }}>
-            <Toolbar style={{ height: 64 }}>
-              <Typography color="inherit">OSRS CALCULATOR</Typography>
-            </Toolbar>
-          </AppBar>
-          <p>what up</p>
-        </Paper>
-      </div>
+      <React.Fragment>
+        <Card style={{ margin: '3rem auto', width: '400px' }}>
+          <CardContent
+            style={{
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <Typography variant="h5">Pick an item!</Typography>
+            <Input />
+            <Button
+              style={{ width: '20px', margin: '1rem auto 0 auto' }}
+              onClick={() => this.callApi()}
+            >
+              Submit
+            </Button>
+          </CardContent>
+        </Card>
+        {this.state.show && (
+          <Card>
+            <CardContent>
+              <Typography variant="h5">{this.state.results}</Typography>
+            </CardContent>
+          </Card>
+        )}
+      </React.Fragment>
     )
   }
 }
