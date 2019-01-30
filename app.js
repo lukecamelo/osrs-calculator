@@ -12,17 +12,6 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use('/items', index)
 
-app.get('/test', (req, res) => {
-  console.log('test')
-  axios
-    .get(`${BASE_URL}/api/catalogue/detail.json?item=2`)
-    .then(data => {
-      console.log(data)
-      res.send(data.data)
-    })
-    .catch(err => console.log('error ', err))
-})
-
 app.listen(port, () => {
   console.log(`listening on port ${port}`)
 })

@@ -10,7 +10,7 @@ async function returnItemsJson(req, res, next) {
   let item_result, item_id
   const body = req.body
 
-  item_id = item_json.find(el => el.name === body.itemName).id
+  item_id = item_json.find(el => el.name.toLowerCase() === body.itemName).id
 
   try {
     item_result = await axios.get(
@@ -19,7 +19,7 @@ async function returnItemsJson(req, res, next) {
   } catch (e) {
     console.log(e)
   }
-
+  console.log('hai hai')
   req.data = res.json(item_result.data)
   next()
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Card, CardContent, Typography, Input, Button } from '@material-ui/core'
 import axios from 'axios'
+import api from '../services/api'
 
 class App extends Component {
   state = {
@@ -9,18 +10,16 @@ class App extends Component {
     results: ''
   }
 
-  callApi = itemName => {
+  displayItem = name => {
+    // console.log(api)
+    // api.items
+    //   .getOne(name)
+    //   .then(json => this.setState({ show: true, results: json.data.item }))
     axios
-      .post('/items/json', {
-        itemName
+      .post('items/json', {
+        name
       })
-      .then(json => {
-        console.log(json.data)
-        this.setState({
-          show: true,
-          results: json.data.item
-        })
-      })
+      .then(res => console.log(res.data))
   }
 
   handleChange = e => {
@@ -48,7 +47,10 @@ class App extends Component {
             />
             <Button
               style={{ width: '20px', margin: '1rem auto 0 auto' }}
-              onClick={() => this.callApi(this.state.inputValue)}
+              // onClick={() => this.callApi(this.state.inputValue)}
+              onClick={() =>
+                this.displayItem(this.state.inputValue.toLowerCase())
+              }
             >
               Submit
             </Button>
