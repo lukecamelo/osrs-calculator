@@ -1,18 +1,12 @@
 import axios from 'axios'
 
-const headers = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json'
-}
-
 export default {
   items: {
-    getOne: name => {
-      return axios
-        .post('http://localhost:8080/items/json', {
-          name
+    getOne: itemName =>
+      axios
+        .post('/items/json', {
+          itemName
         })
-        .then(res => console.log(res.data))
-    }
+        .then(res => res.data)
   }
 }

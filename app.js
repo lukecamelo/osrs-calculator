@@ -3,7 +3,7 @@ const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const axios = require('axios')
-const port = 8080
+const port = 5055
 const BASE_URL = 'http://services.runescape.com/m=itemdb_oldschool'
 
 const index = require('./server/routes/index')
