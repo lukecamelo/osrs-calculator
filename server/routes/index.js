@@ -6,4 +6,8 @@ router.post('/json', itemController.returnItemsJson, (req, res) => {
   return req.data
 })
 
+router.post('/calctest', itemController.addMaterialCosts, (req, res) => {
+  // return req.data
+})
+
 module.exports = router

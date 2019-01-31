@@ -6,13 +6,16 @@ class App extends Component {
   state = {
     inputValue: '',
     show: false,
-    results: ''
+    results: '',
+    costTotal: 0
   }
 
   displayItem = name => {
     api.items
-      .getOne(name)
-      .then(json => this.setState({ show: true, results: json.item }))
+      .test(name)
+      .then(json =>
+        this.setState({ show: true, results: json.item, costTotal: json })
+      )
   }
 
   handleChange = e => {
@@ -57,9 +60,18 @@ class App extends Component {
               }}
             >
               <div>
-                <img src={this.state.results.icon} alt="item icon" />
-                <Typography variant="h5">
+                {/* <img src={this.state.results.icon} alt="item icon" /> */}
+                <img
+                  src={
+                    'http://services.runescape.com/m=itemdb_oldschool/1548673237439_obj_big.gif?id=50'
+                  }
+                  alt="item icon"
+                />
+                {/* <Typography variant="h5">
                   current price: {this.state.results.current.price}gp
+                </Typography> */}
+                <Typography variant="h5">
+                  total: {this.state.costTotal}gp
                 </Typography>
               </div>
             </CardContent>

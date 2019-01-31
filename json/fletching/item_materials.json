@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Shortbow",
+    "materials": ["Shortbow (u)", "Bow string"]
+  },
+  {
+    "name": "Longbow",
+    "materials": ["Longbow (u)", "Bow string"]
+  },
+  {
+    "name": "Oak shortbow",
+    "materials": ["Oak shortbow (u)", "Bow string"]
+  },
+  {
+    "name": "Oak longbow",
+    "materials": ["Oak longbow (u)", "Bow string"]
+  }
+]
