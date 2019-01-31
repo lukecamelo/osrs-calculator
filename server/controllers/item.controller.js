@@ -51,6 +51,12 @@ async function addMaterialCosts(req, res, next) {
   costTotal = await Promise.all(matArray).then(res => {
     return res.map(mat => mat.item.current.price).reduce((a, b) => a + b)
   })
-  req.data = res.json(costTotal)
+
+  const itemPrice = await getItemInfo(String(body.itemName))
+  req.data = res.json({
+    materialCost: costTotal,
+    itemPrice: itemPrice.item.current.price,
+    profit: itemPrice.item.current.price - costTotal
+  })
   next()
 }

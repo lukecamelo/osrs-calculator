@@ -7,15 +7,21 @@ class App extends Component {
     inputValue: '',
     show: false,
     results: '',
-    costTotal: 0
+    costTotal: 0,
+    itemPrice: 0,
+    profit: 0
   }
 
   displayItem = name => {
-    api.items
-      .test(name)
-      .then(json =>
-        this.setState({ show: true, results: json.item, costTotal: json })
-      )
+    api.items.test(name).then(json =>
+      this.setState({
+        show: true,
+        results: json.item,
+        costTotal: json.materialCost,
+        itemPrice: json.itemPrice,
+        profit: json.profit
+      })
+    )
   }
 
   handleChange = e => {
@@ -71,7 +77,13 @@ class App extends Component {
                   current price: {this.state.results.current.price}gp
                 </Typography> */}
                 <Typography variant="h5">
-                  total: {this.state.costTotal}gp
+                  material cost total: {this.state.costTotal}gp
+                </Typography>
+                <Typography variant="h5">
+                  item cost: {this.state.itemPrice}gp
+                </Typography>
+                <Typography variant="h5">
+                  profit: {this.state.profit}gp
                 </Typography>
               </div>
             </CardContent>
