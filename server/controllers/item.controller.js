@@ -59,7 +59,9 @@ async function addMaterialCosts(req, res, next) {
 async function getItemInfo(itemName) {
   let item_result, item_id
 
-  item_id = item_json.find(el => el.name === itemName).id
+  item_id = item_json.find(
+    el => el.name.toLowerCase() === itemName.toLowerCase()
+  ).id
   try {
     item_result = await axios.get(
       `${BASE_URL}/api/catalogue/detail.json?item=${item_id}`
@@ -73,7 +75,7 @@ async function getItemInfo(itemName) {
 
 function getItemMaterials(item, mat_json) {
   return mat_json
-    .find(el => el.name === item)
+    .find(el => el.name.toLowerCase() === item.toLowerCase())
     .materials.map(async mat => getItemInfo(mat))
 }
 
