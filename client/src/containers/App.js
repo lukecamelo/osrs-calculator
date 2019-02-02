@@ -13,7 +13,8 @@ class App extends Component {
   }
 
   displayItem = name => {
-    api.items.getMargin(name).then(json =>
+    api.items.getMargin(name).then(json => {
+      console.log(json.profit)
       this.setState({
         show: true,
         results: json.item,
@@ -21,7 +22,7 @@ class App extends Component {
         itemPrice: json.itemPrice,
         profit: json.profit
       })
-    )
+    })
   }
 
   handleChange = e => {
@@ -65,7 +66,7 @@ class App extends Component {
               }}
             >
               <div>
-                <img src={this.state.results.icon_large} alt="item icon" />
+                <img src={this.state.results.item.icon_large} alt="item icon" />
                 <Typography variant="h5">
                   material cost total: {this.state.costTotal}gp
                 </Typography>

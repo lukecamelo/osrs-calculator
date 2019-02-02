@@ -25,6 +25,37 @@ async function returnItemsJson(req, res, next) {
   next()
 }
 
+async function addMaterialCosts(req, res, next) {
+  const body = req.body
+  let costTotal,
+    matArray = [],
+    item,
+    itemPrice
+
+  // Break this part down into separate methods, or at least introduce helpers
+  matArray = await getItemMaterials(body.itemName, item_materials)
+
+  costTotal = await Promise.all(matArray).then(res => {
+    return res.map(mat => getMatPrice(mat)).reduce((a, b) => a + b)
+  })
+
+  itemPrice = await getItemInfo(String(body.itemName))
+  itemPrice = await itemPrice.item.current.price
+  item = await getItemInfo(String(body.itemName))
+
+  if (typeof itemPrice !== 'number') {
+    itemPrice = parseFloat(itemPrice.replace(/,/, ''))
+  }
+
+  req.data = res.json({
+    materialCost: costTotal,
+    itemPrice: itemPrice,
+    profit: itemPrice - costTotal,
+    item
+  })
+  next()
+}
+
 async function getItemInfo(itemName) {
   let item_result, item_id
 
@@ -40,34 +71,14 @@ async function getItemInfo(itemName) {
   return item_result.data
 }
 
-async function addMaterialCosts(req, res, next) {
-  const body = req.body
-  let costTotal,
-    matArray = []
-
-  // Break this part down into separate methods, or at least introduce helpers
-  // matArray = await item_materials
-  //   .find(el => el.name === body.itemName)
-  //   .materials.map(async mat => getItemInfo(mat))
-  matArray = await getItemMaterials(body.itemName)
-
-  costTotal = await Promise.all(matArray).then(res => {
-    return res.map(mat => mat.item.current.price).reduce((a, b) => a + b)
-  })
-
-  const itemPrice = await getItemInfo(String(body.itemName))
-  req.data = res.json({
-    materialCost: costTotal,
-    itemPrice: itemPrice.item.current.price,
-    profit: itemPrice.item.current.price - costTotal,
-    item: itemPrice.item
-  })
-  next()
-}
-
-function getItemMaterials(item) {
-  console.log('test')
-  return item_materials
+function getItemMaterials(item, mat_json) {
+  return mat_json
     .find(el => el.name === item)
     .materials.map(async mat => getItemInfo(mat))
+}
+
+function getMatPrice(mat) {
+  return typeof mat.item.current.price != 'number'
+    ? parseFloat(mat.item.current.price.replace(/,/, ''))
+    : mat.item.current.price
 }
