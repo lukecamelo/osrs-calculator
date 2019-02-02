@@ -8,7 +8,7 @@ export default {
           itemName
         })
         .then(res => res.data),
-    test: itemName =>
+    getMargin: itemName =>
       axios
         .post('/items/calctest', {
           itemName

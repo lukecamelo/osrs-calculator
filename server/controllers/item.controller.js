@@ -44,9 +44,12 @@ async function addMaterialCosts(req, res, next) {
   const body = req.body
   let costTotal,
     matArray = []
-  matArray = await item_materials
-    .find(el => el.name === body.itemName)
-    .materials.map(async mat => getItemInfo(mat))
+
+  // Break this part down into separate methods, or at least introduce helpers
+  // matArray = await item_materials
+  //   .find(el => el.name === body.itemName)
+  //   .materials.map(async mat => getItemInfo(mat))
+  matArray = await getItemMaterials(body.itemName)
 
   costTotal = await Promise.all(matArray).then(res => {
     return res.map(mat => mat.item.current.price).reduce((a, b) => a + b)
@@ -56,7 +59,15 @@ async function addMaterialCosts(req, res, next) {
   req.data = res.json({
     materialCost: costTotal,
     itemPrice: itemPrice.item.current.price,
-    profit: itemPrice.item.current.price - costTotal
+    profit: itemPrice.item.current.price - costTotal,
+    item: itemPrice.item
   })
   next()
+}
+
+function getItemMaterials(item) {
+  console.log('test')
+  return item_materials
+    .find(el => el.name === item)
+    .materials.map(async mat => getItemInfo(mat))
 }

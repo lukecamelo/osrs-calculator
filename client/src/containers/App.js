@@ -13,7 +13,7 @@ class App extends Component {
   }
 
   displayItem = name => {
-    api.items.test(name).then(json =>
+    api.items.getMargin(name).then(json =>
       this.setState({
         show: true,
         results: json.item,
@@ -49,7 +49,6 @@ class App extends Component {
             />
             <Button
               style={{ width: '20px', margin: '1rem auto 0 auto' }}
-              // onClick={() => this.callApi(this.state.inputValue)}
               onClick={() => this.displayItem(this.state.inputValue)}
             >
               Submit
@@ -66,16 +65,7 @@ class App extends Component {
               }}
             >
               <div>
-                {/* <img src={this.state.results.icon} alt="item icon" /> */}
-                <img
-                  src={
-                    'http://services.runescape.com/m=itemdb_oldschool/1548673237439_obj_big.gif?id=50'
-                  }
-                  alt="item icon"
-                />
-                {/* <Typography variant="h5">
-                  current price: {this.state.results.current.price}gp
-                </Typography> */}
+                <img src={this.state.results.icon_large} alt="item icon" />
                 <Typography variant="h5">
                   material cost total: {this.state.costTotal}gp
                 </Typography>
