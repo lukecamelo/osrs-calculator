@@ -14,5 +14,37 @@
   {
     "name": "Oak longbow",
     "materials": ["Oak longbow (u)", "Bow string"]
+  },
+  {
+    "name": "Maple shortbow",
+    "materials": ["Maple shortbow (u)", "Bow string"]
+  },
+  {
+    "name": "Maple longbow",
+    "materials": ["Maple longbow (u)", "Bow string"]
+  },
+  {
+    "name": "Willow shortbow",
+    "materials": ["Willow shortbow (u)", "Bow string"]
+  },
+  {
+    "name": "Willow longbow",
+    "materials": ["Willow longbow (u)", "Bow string"]
+  },
+  {
+    "name": "Yew shortbow",
+    "materials": ["Willow shortbow (u)", "Bow string"]
+  },
+  {
+    "name": "Yew longbow",
+    "materials": ["Yew longbow (u)", "Bow string"]
+  },
+  {
+    "name": "Magic shortbow",
+    "materials": ["Magic shortbow (u)", "Bow string"]
+  },
+  {
+    "name": "Magic longbow",
+    "materials": ["Magic longbow (u)", "Bow string"]
   }
 ]
