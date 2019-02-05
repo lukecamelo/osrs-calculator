@@ -1,9 +1,9 @@
 import React, { useState, useReducer } from 'react'
 import { Card, CardContent, Typography, Input, Button } from '@material-ui/core'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import api from '../services/api'
 
 const initialState = {
-  show: false,
   results: '',
   costTotal: 0,
   itemPrice: 0,
@@ -12,10 +12,9 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'show':
+    case 'fetch_margin_data':
       return {
         ...state,
-        show: true,
         results: action.payload.item,
         costTotal: action.payload.materialCost,
         itemPrice: action.payload.itemPrice,
@@ -28,6 +27,7 @@ const reducer = (state, action) => {
 
 function useInput(initialValue) {
   const [input, setInput] = useState(initialValue)
+
   function handleChange(e) {
     setInput(e.target.value)
   }
@@ -39,11 +39,16 @@ function useInput(initialValue) {
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [hasLoaded, setHasLoaded] = useState(false)
+  const [showSpinner, setShowSpinner] = useState(false)
   let input = useInput('')
 
-  const displayItem = name => {
+  const fetchItemMargin = name => {
+    setShowSpinner(true)
     api.items.getMargin(name).then(json => {
-      dispatch({ type: 'show', payload: json })
+      dispatch({ type: 'fetch_margin_data', payload: json })
+      setShowSpinner(false)
+      setHasLoaded(true)
     })
   }
 
@@ -61,13 +66,13 @@ const App = () => {
           <Input name="inputValue" {...input} />
           <Button
             style={{ width: '20px', margin: '1rem auto 0 auto' }}
-            onClick={() => displayItem(input.value)}
+            onClick={() => fetchItemMargin(input.value)}
           >
             Submit
           </Button>
         </CardContent>
       </Card>
-      {state.show && (
+      {hasLoaded && (
         <Card style={{ margin: '3rem auto', width: '400px' }}>
           <CardContent
             style={{
@@ -86,6 +91,20 @@ const App = () => {
               </Typography>
               <Typography variant="h5">profit: {state.profit}gp</Typography>
             </div>
+          </CardContent>
+        </Card>
+      )}
+      {showSpinner && (
+        <Card style={{ margin: '3rem auto', width: '400px' }}>
+          <CardContent
+            style={{
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}
+          >
+            <CircularProgress />
           </CardContent>
         </Card>
       )}

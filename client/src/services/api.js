@@ -10,7 +10,7 @@ export default {
         .then(res => res.data),
     getMargin: itemName =>
       axios
-        .post('/items/calctest', {
+        .post('/items/item-margin', {
           itemName
         })
         .then(res => res.data)
