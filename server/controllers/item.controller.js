@@ -1,5 +1,5 @@
 const item_json = require('../../json/item_ids.json')
-const item_materials = require('../../json/fletching/item_materials.json')
+const fletching_materials = require('../../json/fletching/fletching_materials.json')
 const axios = require('axios')
 const BASE_URL = 'http://services.runescape.com/m=itemdb_oldschool'
 
@@ -33,7 +33,7 @@ async function addMaterialCosts(req, res, next) {
     itemPrice
 
   // Break this part down into separate methods, or at least introduce helpers
-  matArray = await getItemMaterials(body.itemName, item_materials)
+  matArray = await getItemMaterialData(body.itemName, fletching_materials)
 
   costTotal = await Promise.all(matArray).then(res => {
     return res.map(mat => getMatPrice(mat)).reduce((a, b) => a + b)
@@ -73,7 +73,13 @@ async function getItemInfo(itemName) {
   return item_result.data
 }
 
-function getItemMaterials(item, mat_json) {
+async function getAllMargins(mat_json) {
+  let margins = await mat_json.map(item => {
+    return getItemMaterialData(item, mat_json)
+  })
+}
+
+function getItemMaterialData(item, mat_json) {
   return mat_json
     .find(el => el.name.toLowerCase() === item.toLowerCase())
     .materials.map(async mat => getItemInfo(mat))
