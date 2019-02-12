@@ -45,8 +45,13 @@ const App = () => {
 
   const fetchItemMargin = name => {
     setShowSpinner(true)
-    api.items.getMargin(name).then(json => {
-      dispatch({ type: 'fetch_margin_data', payload: json })
+    // api.items.getMargin(name).then(json => {
+    //   dispatch({ type: 'fetch_margin_data', payload: json })
+    //   setShowSpinner(false)
+    //   setHasLoaded(true)
+    // })
+    api.items.allMargins().then(json => {
+      console.log(json)
       setShowSpinner(false)
       setHasLoaded(true)
     })

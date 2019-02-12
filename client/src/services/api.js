@@ -13,6 +13,7 @@ export default {
         .post('/items/item-margin', {
           itemName
         })
-        .then(res => res.data)
+        .then(res => res.data),
+    allMargins: () => axios.get('/items/margins-test').then(res => res.data)
   }
 }

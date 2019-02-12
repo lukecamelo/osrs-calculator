@@ -5,7 +5,8 @@ const BASE_URL = 'http://services.runescape.com/m=itemdb_oldschool'
 
 module.exports = {
   returnItemsJson,
-  addMaterialCosts
+  addMaterialCosts,
+  allMarginRoute
 }
 
 async function returnItemsJson(req, res, next) {
@@ -33,15 +34,15 @@ async function addMaterialCosts(req, res, next) {
     itemPrice
 
   // Break this part down into separate methods, or at least introduce helpers
-  matArray = await getItemMaterialData(body.itemName, fletching_materials)
+  matArray = await getMaterials(body.itemName, fletching_materials)
 
   costTotal = await Promise.all(matArray).then(res => {
     return res.map(mat => getMatPrice(mat)).reduce((a, b) => a + b)
   })
 
-  itemPrice = await getItemInfo(String(body.itemName))
+  itemPrice = await fetchItemData(String(body.itemName))
   itemPrice = await itemPrice.item.current.price
-  item = await getItemInfo(String(body.itemName))
+  item = await fetchItemData(String(body.itemName))
 
   if (typeof itemPrice !== 'number') {
     itemPrice = parseFloat(itemPrice.replace(/,/, ''))
@@ -56,7 +57,7 @@ async function addMaterialCosts(req, res, next) {
   next()
 }
 
-async function getItemInfo(itemName) {
+async function fetchItemData(itemName) {
   let item_result, item_id
 
   item_id = item_json.find(
@@ -74,15 +75,24 @@ async function getItemInfo(itemName) {
 }
 
 async function getAllMargins(mat_json) {
+  console.log('getAllMargins margin array: ')
   let margins = await mat_json.map(item => {
-    return getItemMaterialData(item, mat_json)
+    return getMaterials(item, mat_json)
   })
+  console.log('getAllMargins margin array: ', margins)
 }
 
-function getItemMaterialData(item, mat_json) {
+async function allMarginRoute(req, res, next) {
+  console.log('marginArray: ')
+  let marginArray = await getAllMargins(fletching_materials)
+  req.data = res.json({ marginArray })
+  next()
+}
+
+function getMaterials(item, mat_json) {
   return mat_json
     .find(el => el.name.toLowerCase() === item.toLowerCase())
-    .materials.map(async mat => getItemInfo(mat))
+    .materials.map(async mat => fetchItemData(mat))
 }
 
 function getMatPrice(mat) {

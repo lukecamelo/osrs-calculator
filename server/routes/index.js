@@ -10,4 +10,8 @@ router.post('/item-margin', itemController.addMaterialCosts, (req, res) => {
   // return req.data
 })
 
+router.get('/margins-test', itemController.allMarginRoute, (req, res) => {
+  return req.data
+})
+
 module.exports = router
