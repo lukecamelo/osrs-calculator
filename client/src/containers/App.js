@@ -51,9 +51,9 @@ const App = () => {
     //   setHasLoaded(true)
     // })
     api.items.allMargins().then(json => {
-      console.log(json)
+      console.log('api.items.allMargins: ', json)
       setShowSpinner(false)
-      setHasLoaded(true)
+      // setHasLoaded(true)
     })
   }
 
