@@ -77,15 +77,14 @@ async function fetchItemData(itemName) {
 function getAllMargins(mat_json) {
   let array = []
   array = mat_json.map(item => {
-    // return getMaterials(item.name, mat_json)
     return item.name
   })
-  console.log('after map array ', array)
   return array
 }
 
 async function allMarginRoute(req, res, next) {
   let marginArray = await getAllMargins(fletching_materials)
+  marginArray = await marginArray.map(item => fetchItemData(item))
   req.data = res.json({ marginArray })
   next()
 }
