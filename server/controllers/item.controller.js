@@ -12,7 +12,6 @@ module.exports = {
 async function returnItemsJson(req, res, next) {
   let item_result, item_id
   const body = req.body
-  console.log('this is body itemname ', body.itemName)
   item_id = item_json.find(el => el.name === body.itemName).id
   try {
     item_result = await axios.get(
@@ -70,22 +69,25 @@ async function fetchItemData(itemName) {
   } catch (e) {
     console.log(e)
   }
-
   return item_result.data
 }
 
 function getAllMargins(mat_json) {
-  let array = []
-  array = mat_json.map(item => {
+  let array = mat_json.map(item => {
     return item.name
   })
   return array
 }
 
 async function allMarginRoute(req, res, next) {
+  let marginResults = []
   let marginArray = await getAllMargins(fletching_materials)
-  marginArray = await marginArray.map(item => fetchItemData(item))
-  req.data = res.json({ marginArray })
+  marginArray = marginArray.map(async item => {
+    return fetchItemData(String(item))
+  })
+
+  marginResults = await Promise.all(marginArray).then(item => item)
+  req.data = res.json({ marginResults })
   next()
 }
 
